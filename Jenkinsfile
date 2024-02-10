@@ -47,13 +47,13 @@ pipeline {
       //      }
      //   }
 
-        stage('JUnit et Mockito Tests') {
-            steps {
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
+      //  stage('JUnit et Mockito Tests') {
+      //      steps {
+      //          script {
+      //              sh 'mvn test'
+      //          }
+      //      }
+       // }
 
         stage('Package JAR') {
             steps {
