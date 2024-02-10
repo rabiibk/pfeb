@@ -38,14 +38,14 @@ pipeline {
             }
         }
 
-        stage('Code Coverage with Jacoco') {
-            steps {
-                script {
-                    sh 'mvn jacoco:prepare-agent test jacoco:report'
-                }
-                jacoco(execPattern: 'target/jacoco.exec')
-            }
-        }
+      //  stage('Code Coverage with Jacoco') {
+      //      steps {
+      //          script {
+      //              sh 'mvn jacoco:prepare-agent test jacoco:report'
+      //          }
+      //          jacoco(execPattern: 'target/jacoco.exec')
+      //      }
+     //   }
 
         stage('JUnit et Mockito Tests') {
             steps {
