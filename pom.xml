@@ -75,10 +75,6 @@
 		<artifactId>micrometer-registry-prometheus</artifactId>
 	</dependency>
 
-
-
-
-
 	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
