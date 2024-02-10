@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  # Service MySQL
+  mysql:
+    image: mysql:5.7.4
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devops
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+  # Service Spring Boot
+  java:
+    image: java:back
+    container_name: java
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?allowPublicKeyRetrieval=true&useSSL=false
+      MYSQL_HOST: mysql
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops
+      MYSQL_PORT: 3306
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+  # Angular App
+  angular:
+    image: angular:angular
+    container_name: angular
+    ports:
+      - "80:80"
+    networks:
+      - my-network
+    depends_on:
+      - java
+
+networks:
+  my-network:
+    driver: bridge
