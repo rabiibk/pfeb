@@ -1,17 +1,18 @@
 package com.example.angular.springbootcrudapi.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
 @Entity
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +20,7 @@ public class Employee {
     private String name;
     private String email;
     private int phone;
+    private int matricule;
     private String department;
 
     public int getId() {
@@ -49,9 +51,12 @@ public class Employee {
         return phone;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setPhone(int phone) { this.phone = phone; }
+
+    public int getMatricule() {
+        return matricule;
     }
+    public void setMatricule(int matricule) { this.matricule = matricule;}
 
     public String getDepartment() {
         return department;
@@ -60,4 +65,14 @@ public class Employee {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+
+    @OneToMany(mappedBy = "employee")
+    private List<Conge> conges;
+
+    @OneToMany(mappedBy = "employee")
+    private List<CongeMaladie> congesMaladie;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Absence> absences;
 }
