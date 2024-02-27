@@ -4,7 +4,7 @@ pipeline {
     environment {
         NEXUS_URL = 'http://192.168.12.150:8081/repository/maven-releases/'
         DOCKER_REPO = 'rabii1990/backend'
-        DOCKERFILE_PATH = '/home/rabii/backend/Dockerfile'
+        DOCKERFILE_PATH = '/var/lib/jenkins/workspace/pfeb/Dockerfile'
         DOCKER_IMAGE_NAME = 'rabiiback'
         DOCKER_IMAGE_TAG = 'spring'
         NEXUS_USERNAME = 'admin'
@@ -71,8 +71,8 @@ pipeline {
 
         stage('Pull JAR & Build Docker Image') {
             steps {
-              //  sh 'cp /var/lib/jenkins/.m2/repository/tn/esprit/DevOpsProject/2.1/DevOpsProject-2.1.jar /home/rabii/backend/'
-                sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/DevOpsProject-2.1.jar'
+              
+                sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/Dockerfile'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/docker-compose.yml'
                 sh "docker build -t java:back /var/lib/jenkins/workspace/pfeb "
