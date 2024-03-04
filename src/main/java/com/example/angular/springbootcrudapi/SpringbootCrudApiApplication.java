@@ -1,4 +1,4 @@
-package com.example.springbootcrudapi;
+package com.example.angular.springbootcrudapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

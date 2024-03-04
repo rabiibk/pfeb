@@ -1,4 +1,4 @@
-package com.example.springbootcrudapi.model;
+package com.example.angular.springbootcrudapi.model;
 
 import javax.persistence.*;
 import java.util.Date;

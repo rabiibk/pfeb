@@ -1,4 +1,4 @@
-package com.example.springbootcrudapi.model;
+package com.example.angular.springbootcrudapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
-package com.example.springbootcrudapi.repository;
+package com.example.angular.springbootcrudapi.repository;
 
 
-import com.example.springbootcrudapi.model.Absence;
+import com.example.angular.springbootcrudapi.model.Absence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

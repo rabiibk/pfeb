@@ -1,4 +1,4 @@
-package com.example.springbootcrudapi.configuration;
+package com.example.angular.springbootcrudapi.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

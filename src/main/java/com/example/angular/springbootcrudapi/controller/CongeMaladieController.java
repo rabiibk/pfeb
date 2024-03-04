@@ -1,9 +1,9 @@
-package com.example.springbootcrudapi.controller;
+package com.example.angular.springbootcrudapi.controller;
 
 
-import com.example.springbootcrudapi.ResourceNotFoundException;
-import com.example.springbootcrudapi.model.CongeMaladie;
-import com.example.springbootcrudapi.repository.CongeMaladieRepository;
+import com.example.angular.springbootcrudapi.ResourceNotFoundException;
+import com.example.angular.springbootcrudapi.model.CongeMaladie;
+import com.example.angular.springbootcrudapi.repository.CongeMaladieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
