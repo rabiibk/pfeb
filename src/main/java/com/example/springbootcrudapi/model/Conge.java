@@ -1,12 +1,10 @@
-package com.example.angular.springbootcrudapi.model;
-
-import lombok.Getter;
+package com.example.springbootcrudapi.model;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Absence {
+public class Conge {
 
 
     @Id
@@ -17,29 +15,25 @@ public class Absence {
 
     private Date dateFin;
 
-    private String motif;
+    private int NbrJours;
+    private int matriculeC;
+    private String nameC;
 
-
-    @Getter
-    private String nameE;
-
-    public String getNameE() {
-        return nameE;
+    public int getMatriculeC() {
+        return matriculeC;
     }
 
-    public void setNameE(String nameE) {
-        this.nameE = nameE;
+    public void setMatriculeC(int matriculeC) {
+        this.matriculeC = matriculeC;
     }
 
-    public int getMatriculeE() {
-        return matriculeE;
+    public String getNameC() {
+        return nameC;
     }
 
-    public void setMatriculeE(int matriculeE) {
-        this.matriculeE = matriculeE;
+    public void setNameC(String nameC) {
+        this.nameC = nameC;
     }
-
-    private int matriculeE;
 
 
     public int getId() {
@@ -66,24 +60,32 @@ public class Absence {
         this.dateFin = dateFin;
     }
 
-    public String getMotif() {
-        return motif;
+    public int getNbrJours() {
+        return NbrJours;
     }
 
-    public void setMotif(String motif) {
-        this.motif = motif;
+    public void setNbrJours(int nbrJours) {
+        NbrJours = nbrJours;
+    }
+
+    public Etatconge getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Etatconge etat) {
+        this.etat = etat;
     }
 
     public Employee getEmployee() {
         return employee;
     }
 
-
-
-
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    @Enumerated(EnumType.STRING)
+    private Etatconge etat;
 
     @ManyToOne
     // @JoinColumn(name = "employee_id")

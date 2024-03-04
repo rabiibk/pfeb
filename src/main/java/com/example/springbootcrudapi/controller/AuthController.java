@@ -1,15 +1,13 @@
-package com.example.angular.springbootcrudapi.controller;
+package com.example.springbootcrudapi.controller;
 
-import com.example.angular.springbootcrudapi.model.Employee;
-import com.example.angular.springbootcrudapi.model.LoginRequest;
-import com.example.angular.springbootcrudapi.repository.EmployeeRepository;
+import com.example.springbootcrudapi.model.Employee;
+import com.example.springbootcrudapi.model.LoginRequest;
+import com.example.springbootcrudapi.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;

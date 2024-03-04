@@ -1,8 +1,8 @@
-package com.example.angular.springbootcrudapi.controller;
+package com.example.springbootcrudapi.controller;
 
-import com.example.angular.springbootcrudapi.ResourceNotFoundException;
-import com.example.angular.springbootcrudapi.model.Employee;
-import com.example.angular.springbootcrudapi.repository.EmployeeRepository;
+import com.example.springbootcrudapi.ResourceNotFoundException;
+import com.example.springbootcrudapi.model.Employee;
+import com.example.springbootcrudapi.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

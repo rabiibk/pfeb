@@ -1,4 +1,4 @@
-package com.example.angular.springbootcrudapi.model;
+package com.example.springbootcrudapi.model;
 
 public class LoginRequest {
     private String name;

@@ -71,7 +71,7 @@ pipeline {
 
         stage('Pull JAR & Build Docker Image') {
             steps {
-              
+
                 sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/Dockerfile'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/docker-compose.yml'
