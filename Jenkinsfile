@@ -17,14 +17,14 @@ pipeline {
     }
 
     stages {
-           stage('Git') {
-               steps {
-                   echo 'My first job pipeline angular'
-                   checkout([$class: 'GitSCM', branches: [[name: '*/master']],
-                    doGenerateSubmoduleConfigurations: false, extensions: [],
-                     submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rabiibk/pfeb.git']]])
-               }
-           }
+        stage('Git') {
+            steps {
+                echo 'My first job pipeline angular'
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+                        doGenerateSubmoduleConfigurations: false, extensions: [],
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rabiibk/pfeb.git']]])
+            }
+        }
 
         stage('Compiling') {
             steps {
@@ -39,10 +39,10 @@ pipeline {
         }
 
         stage('Code Coverage with Jacoco') {
-           steps {
+            steps {
                 script {
                     sh 'mvn jacoco:prepare-agent test jacoco:report'
-               }
+                }
                 jacoco(execPattern: 'target/jacoco.exec')
             }
         }
@@ -50,8 +50,8 @@ pipeline {
         stage('JUnit et Mockito Tests') {
             steps {
                 script {
-                   sh 'mvn test'
-               }
+                    sh 'mvn test'
+                }
             }
         }
 
@@ -71,7 +71,6 @@ pipeline {
 
         stage('Pull JAR & Build Docker Image') {
             steps {
-
                 sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/Dockerfile'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/docker-compose.yml'
@@ -87,60 +86,45 @@ pipeline {
             }
         }
 
-       stage('Push Docker Image to Nexus') {
-           steps {
-               withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                   // Créer un fichier temporaire pour stocker le mot de passe
-                   def passwordFile = 'password.txt'
-                   sh "echo ${NEXUS_PASSWORD} > ${passwordFile}"
-                   sh "docker login -u admin --password-stdin 192.168.164.129:8083 < ${passwordFile}"
-                   // Supprimer le fichier temporaire après utilisation
-                   sh "rm ${passwordFile}"
-               }
+        stage('Push Docker Image to Nexus') {
+            steps {
+                // Créer un fichier temporaire pour stocker le mot de passe
+                def passwordFile = 'password.txt'
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh "echo ${NEXUS_PASSWORD} > ${passwordFile}"
+                    sh "docker login -u admin --password-stdin 192.168.164.129:8083 < ${passwordFile}"
+                }
+                // Supprimer le fichier temporaire après utilisation
+                sh "rm ${passwordFile}"
 
-               script {
-                   sh "docker tag java:back 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
-                   sh "docker push 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
-               }
-           }
-       }
+                script {
+                    sh "docker tag java:back 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                    sh "docker push 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                }
+            }
+        }
 
-
-
-
-
-       // stage('Docker-compose') {
-       //             steps {
-       //                 script {
-       //                     dir(DOCKER_COMPOSE_HOME) {
-       //                         sh 'docker-compose up -d'
-       //             }
-       //         }
-       //      }
-       // }
-
-
-
+        // stage('Docker-compose') {
+        //     steps {
+        //         script {
+        //             dir(DOCKER_COMPOSE_HOME) {
+        //                 sh 'docker-compose up -d'
+        //             }
+        //         }
+        //     }
+        // }
     }
 
-   // post {
-        //   always {
-
-
-          //         emailext (
-           //            subject: "Pipeline de l'Application SpringBoot est terminé avec succés, Succès Jenkins Build ",
-           //            body: "La construction Jenkins a réussi. Pipeline OK avec succés",
-           //            to: "rabiica30@gmail.com",
-           //            from: "jenkins@example.com",
-           //            replyTo: "jenkins@example.com",
-           //            mimeType: "text/html"
-           //        )
-
-
-          //     }
+    // post {
+    //     always {
+    //         emailext (
+    //             subject: "Pipeline de l'Application SpringBoot est terminé avec succés, Succès Jenkins Build ",
+    //             body: "La construction Jenkins a réussi. Pipeline OK avec succés",
+    //             to: "rabiica30@gmail.com",
+    //             from: "jenkins@example.com",
+    //             replyTo: "jenkins@example.com",
+    //             mimeType: "text/html"
+    //         )
+    //     }
     // }
-
-
-
-
 }
