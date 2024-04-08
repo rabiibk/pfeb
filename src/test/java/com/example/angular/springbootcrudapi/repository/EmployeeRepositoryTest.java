@@ -3,7 +3,6 @@ package com.example.angular.springbootcrudapi.repository;
 import com.example.angular.springbootcrudapi.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,9 +18,6 @@ public class EmployeeRepositoryTest {
     @Mock
     private JpaRepository<Employee, Integer> jpaRepository; // Mock the underlying JPA repository
 
-    @InjectMocks
-    private EmployeeRepository employeeRepository; // Inject the mocked JPA repository
-
     @Test
     public void testFindById() {
         // Create a sample Employee object
@@ -33,7 +29,7 @@ public class EmployeeRepositoryTest {
         when(jpaRepository.findById(1)).thenReturn(Optional.of(employee));
 
         // Call the method to be tested
-        Optional<Employee> foundEmployee = employeeRepository.findById(1);
+        Optional<Employee> foundEmployee = jpaRepository.findById(1);
 
         // Verify the results
         assertTrue(foundEmployee.isPresent());

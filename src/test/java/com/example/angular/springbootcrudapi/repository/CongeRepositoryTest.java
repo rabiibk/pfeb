@@ -3,7 +3,6 @@ package com.example.angular.springbootcrudapi.repository;
 import com.example.angular.springbootcrudapi.model.Conge;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,9 +18,6 @@ public class CongeRepositoryTest {
     @Mock
     private JpaRepository<Conge, Integer> jpaRepository; // Mock the underlying JPA repository
 
-    @InjectMocks
-    private CongeRepository congeRepository; // Inject the mocked JPA repository
-
     @Test
     public void testFindById() {
         // Create a sample Conge object
@@ -33,7 +29,7 @@ public class CongeRepositoryTest {
         when(jpaRepository.findById(1)).thenReturn(Optional.of(conge));
 
         // Call the method to be tested
-        Optional<Conge> foundConge = congeRepository.findById(1);
+        Optional<Conge> foundConge = jpaRepository.findById(1);
 
         // Verify the results
         assertTrue(foundConge.isPresent());

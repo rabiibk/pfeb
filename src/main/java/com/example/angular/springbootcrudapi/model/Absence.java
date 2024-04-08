@@ -13,7 +13,7 @@ public class Absence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String dateDebut;
+    private Date dateDebut;
 
     private Date dateFin;
 
@@ -50,11 +50,11 @@ public class Absence {
         this.id = id;
     }
 
-    public String getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(String dateDebut) {
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
