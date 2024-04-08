@@ -3,36 +3,93 @@ package com.example.angular.springbootcrudapi.repository;
 import com.example.angular.springbootcrudapi.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeRepositoryTest {
 
     @Mock
-    private JpaRepository<Employee, Integer> jpaRepository; // Mock the underlying JPA repository
+    private EmployeeRepository employeeRepository;
+
+    @Test
+    public void testSave() {
+        // Given
+        Employee employeeToSave = new Employee(/* Sample data */);
+        Employee savedEmployee = new Employee(/* Sample data */);
+
+        // Mock the behavior of the repository
+        when(employeeRepository.save(employeeToSave)).thenReturn(savedEmployee);
+
+        // When
+        Employee result = employeeRepository.save(employeeToSave);
+
+        // Then
+        assertEquals(savedEmployee, result);
+    }
 
     @Test
     public void testFindById() {
-        // Create a sample Employee object
-        Employee employee = new Employee();
-        employee.setId(1);
-        employee.setName("John Doe"); // Assuming name exists in Employee
+        // Given
+        Employee foundEmployee = new Employee(/* Sample data */);
+        when(employeeRepository.findById(1)).thenReturn(Optional.of(foundEmployee));
 
-        // Mock the behavior of jpaRepository.findById()
-        when(jpaRepository.findById(1)).thenReturn(Optional.of(employee));
+        // When
+        Optional<Employee> result = employeeRepository.findById(1);
 
-        // Call the method to be tested
-        Optional<Employee> foundEmployee = jpaRepository.findById(1);
-
-        // Verify the results
-        assertTrue(foundEmployee.isPresent());
-        assertEquals(employee, foundEmployee.get());
+        // Then
+        assertTrue(result.isPresent());
+        assertEquals(foundEmployee, result.get());
     }
+
+    @Test
+    public void testFindAll() {
+        // Given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(/* Sample data */));
+        employees.add(new Employee(/* Sample data */));
+        when(employeeRepository.findAll()).thenReturn(employees);
+
+        // When
+        List<Employee> result = employeeRepository.findAll();
+
+        // Then
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testDeleteById() {
+        // Given
+        int idToDelete = 1;
+
+        // When
+        employeeRepository.deleteById(idToDelete);
+
+        // Then
+        verify(employeeRepository, times(1)).deleteById(idToDelete);
+    }
+
+    @Test
+    public void testFindByNameAndMatricule() {
+        // Given
+        String name = "John Doe";
+        int matricule = 12345;
+        Employee foundEmployee = new Employee(/* Sample data */);
+        when(employeeRepository.findByNameAndMatricule(name, matricule)).thenReturn(foundEmployee);
+
+        // When
+        Employee result = employeeRepository.findByNameAndMatricule(name, matricule);
+
+        // Then
+        assertEquals(foundEmployee, result);
+    }
+
+    // Add more test methods as needed for other CRUD operations
 }
