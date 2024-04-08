@@ -90,7 +90,12 @@ pipeline {
         stage('Push Docker Image to Nexus') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                    sh "docker login -u admin --password-stdin 192.168.164.129:8083 < <(echo ${NEXUS_PASSWORD})"
+                    // Créer un fichier temporaire pour stocker le mot de passe
+                    def passwordFile = 'password.txt'
+                    sh "echo ${NEXUS_PASSWORD} > ${passwordFile}"
+                    sh "docker login -u admin --password-stdin 192.168.164.129:8083 < ${passwordFile}"
+                    // Supprimer le fichier temporaire après utilisation
+                    sh "rm ${passwordFile}"
                 }
 
                 script {
@@ -99,6 +104,7 @@ pipeline {
                 }
             }
         }
+
 
 
 
