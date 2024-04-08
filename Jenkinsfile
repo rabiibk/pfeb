@@ -88,21 +88,25 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image to Nexus') {
-                   steps {
+        stage('Push de l\'image Docker vers Nexus') {
+            steps {
+                // Récupération sécurisée des identifiants avec le plugin UsernamePassword
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
 
-                       withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    // Interpolation sécurisée des chaînes avec des quotes simples
+                    sh '''
+                        docker login -u '${NEXUS_USERNAME}' --password-stdin <<< '${NEXUS_PASSWORD}' 192.168.164.129:8083
+                    '''
 
-                           sh "docker login -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD} 192.168.164.129:8083"
+                    // Étiquetage et push de l'image, en garantissant l'utilisation correcte des variables
+                    script {
+                        sh "docker tag java:back 192.168.164.129:8083/${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
+                        sh "docker push 192.168.164.129:8083/${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
+                    }
+                }
+            }
+        }
 
-                       }
-
-                       script {
-                           sh "docker tag java:back 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
-                           sh "docker push 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
-                       }
-                   }
-         }
 
 
 
