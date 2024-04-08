@@ -1,8 +1,12 @@
 package com.example.angular.springbootcrudapi.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
-
+@Getter
+@Setter
 @Entity
 public class CongeMaladie {
 
@@ -20,71 +24,7 @@ public class CongeMaladie {
 
     private int matriculeM;
 
-    public int getMatriculeM() {
-        return matriculeM;
-    }
-
-    public void setMatriculeM(int matriculeM) {
-        this.matriculeM = matriculeM;
-    }
-
-    public String getNameM() {
-        return nameM;
-    }
-
-    public void setNameM(String nameM) {
-        this.nameM = nameM;
-    }
-
     private String nameM;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public Date getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
-    }
-
-    public String getMotif() {
-        return motif;
-    }
-
-    public void setMotif(String motif) {
-        this.motif = motif;
-    }
-
-    public int getNbrjours() {
-        return nbrjours;
-    }
-
-    public void setNbrjours(int nbrjours) {
-        this.nbrjours = nbrjours;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 
     @ManyToOne
     // @JoinColumn(name = "employee_id")

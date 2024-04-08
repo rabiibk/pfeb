@@ -1,5 +1,10 @@
 package com.example.angular.springbootcrudapi.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LoginRequest {
     private String name;
     private int matricule;
@@ -7,21 +12,7 @@ public class LoginRequest {
     // Constructeur par défaut
     public LoginRequest() {}
 
-    // Getters et setters
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public int getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(int matricule) {
-        this.matricule = matricule;
-    }
 }
 

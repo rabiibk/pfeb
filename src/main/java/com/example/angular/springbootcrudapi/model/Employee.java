@@ -1,7 +1,9 @@
 package com.example.angular.springbootcrudapi.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
+@Getter
+@Setter
 @Entity
 public class Employee implements Serializable {
 
@@ -22,50 +26,6 @@ public class Employee implements Serializable {
     private int phone;
     private int matricule;
     private String department;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) { this.phone = phone; }
-
-    public int getMatricule() {
-        return matricule;
-    }
-    public void setMatricule(int matricule) { this.matricule = matricule;}
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
 
     @OneToMany(mappedBy = "employee")
     private List<Conge> conges;
