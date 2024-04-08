@@ -12,6 +12,7 @@ pipeline {
 
         DOCKER_IMAGE_NAME2 = 'rabiiback2'
         DOCKER_IMAGE_TAG2 = 'spring2'
+        passwordFile = 'password.txt'
 
         DOCKER_COMPOSE_HOME = '/var/lib/jenkins/workspace/pfeb'
     }
