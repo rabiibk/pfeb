@@ -38,14 +38,14 @@ pipeline {
             }
         }
 
-       // stage('Code Coverage with Jacoco') {
-       //     steps {
-       //         script {
-       //             sh 'mvn jacoco:prepare-agent test jacoco:report'
-       //         }
-       //         jacoco(execPattern: 'target/jacoco.exec')
-       //     }
-       // }
+        stage('Code Coverage with Jacoco') {
+           steps {
+                script {
+                    sh 'mvn jacoco:prepare-agent test jacoco:report'
+               }
+                jacoco(execPattern: 'target/jacoco.exec')
+            }
+        }
 
         stage('JUnit et Mockito Tests') {
             steps {
@@ -90,29 +90,29 @@ pipeline {
         stage('Push Docker Image to Nexus') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                   // sh "docker login -u admin -p nexus http://192.168.164.129:8083/"
-                    sh "docker login -u admin --password-stdin http://192.168.164.129:8083/ < ~/.docker/config.json"
+                    sh "docker login -u admin -p nexus http://192.168.164.129:8083/"
+                   // sh "docker login -u admin --password-stdin http://192.168.164.129:8083/ < ~/.docker/config.json"
 
                 }
 
                 script {
 
-                    sh "docker tag java:back 192.168.12.185:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
-                    sh "docker push 192.168.12.185:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                    sh "docker tag java:back 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                    sh "docker push 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
 
               }
             }
         }
 
-        stage('Docker-compose') {
-                    steps {
-                        script {
-                            dir(DOCKER_COMPOSE_HOME) {
-                                sh 'docker-compose up -d'
-                    }
-                }
-             }
-        }
+       // stage('Docker-compose') {
+       //             steps {
+       //                 script {
+       //                     dir(DOCKER_COMPOSE_HOME) {
+       //                         sh 'docker-compose up -d'
+       //             }
+       //         }
+       //      }
+       // }
 
 
 
