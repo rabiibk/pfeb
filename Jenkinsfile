@@ -75,15 +75,16 @@ pipeline {
 
                 sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/Dockerfile'
-                sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/docker-compose.yml'
+                sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/trivy-report.txt'
                 sh "docker build -t java:back /var/lib/jenkins/workspace/pfeb "
             }
         }
 
         stage('Scanner avec TRIVY') {
                    steps {
-                       sh 'chmod 777 /home/trivy-report.txt'
-                       sh 'trivy image --timeout 60m --output /home/trivy-report.txt java:back'
+
+                       sh 'trivy image --timeout 60m --output /var/lib/jenkins/workspace/pfeb/trivy-report.txt java:back'
+
                    }
         }
 
@@ -92,7 +93,7 @@ pipeline {
                    steps {
                        emailext subject: 'Trivy Security Scan Report',
                            body: 'Please find attached the Trivy security scan report.',
-                           attachmentsPattern: '/home/trivy-report.txt',
+                           attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
                            to: 'rabiica30@gmail.com'
             }
         }
