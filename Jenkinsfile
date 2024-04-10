@@ -92,7 +92,7 @@ pipeline {
                    emailext (
                        subject: 'Trivy Security Scan Report',
                        body: 'Please find attached the Trivy security scan report.',
-                       attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
+                       attachmentsPattern: '**/trivy-report.txt',
                        to: "rabiica30@gmail.com",
                        from: "jenkins@example.com",
                        replyTo: "jenkins@example.com"
@@ -100,6 +100,8 @@ pipeline {
                }
            }
        }
+
+
 
 
 
