@@ -80,6 +80,24 @@ pipeline {
             }
         }
 
+        stage {
+               stage('Scanner avec TRIVY') {
+                   steps {
+                       sh 'trivy image --timeout 60m --output /home/trivy-report.txt java:back'
+                   }
+               }
+             }
+
+        stage('Send Trivy Report by Email') {
+                   steps {
+                       emailext subject: 'Trivy Security Scan Report',
+                           body: 'Please find attached the Trivy security scan report.',
+                           attachmentsPattern: '/home/trivy-report.txt',
+                           to: 'rabiica30@gmail.com'
+            }
+        }
+
+
         stage('Push Docker Image to Docker Hub') {
             steps {
                 sh "docker tag java:back ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
@@ -93,19 +111,22 @@ pipeline {
                 // Récupération sécurisée des identifiants avec le plugin UsernamePassword
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
 
-                    // Interpolation sécurisée des chaînes avec des quotes simples
+                    // Connexion à Nexus avec --password-stdin
                     sh '''
                         docker login -u '${NEXUS_USERNAME}' --password-stdin <<< '${NEXUS_PASSWORD}' 192.168.164.129:8083
                     '''
 
-                    // Étiquetage et push de l'image, en garantissant l'utilisation correcte des variables
+                    // Étiquetage et push de l'image
                     script {
-                        sh "docker tag java:back 192.168.164.129:8083/${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
-                        sh "docker push 192.168.164.129:8083/${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
+                        def image = "${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
+                        docker.withRegistry('https://192.168.164.129:8083', 'nexus') {
+                            docker.buildAndPush(image)
+                        }
                     }
                 }
             }
         }
+
 
 
 
