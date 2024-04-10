@@ -81,24 +81,21 @@ pipeline {
         }
 
         stage('Scanner avec TRIVY') {
-                   steps {
-
-                       sh 'trivy image --timeout 60m --output /var/lib/jenkins/workspace/pfeb/trivy-report.txt java:back'
-
-                   }
+            steps {
+                sh 'trivy image --timeout 60m --output /var/lib/jenkins/workspace/pfeb/trivy-report.txt java:back'
+            }
         }
-
 
         stage('Send Trivy Report by Email') {
             when {
                 // Déclencher le stage uniquement en cas de succès de la construction
                 success()
             }
-                   steps {
-                       emailext subject: 'Trivy Security Scan Report',
-                           body: 'Please find attached the Trivy security scan report.',
-                           attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
-                           to: 'rabiica30@gmail.com'
+            steps {
+                emailext subject: 'Trivy Security Scan Report',
+                    body: 'Please find attached the Trivy security scan report.',
+                    attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
+                    to: 'rabiica30@gmail.com'
             }
         }
 
