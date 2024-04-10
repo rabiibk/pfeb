@@ -82,6 +82,7 @@ pipeline {
 
         stage('Scanner avec TRIVY') {
                    steps {
+                       sh 'chmod 777 /home/trivy-report.txt'
                        sh 'trivy image --timeout 60m --output /home/trivy-report.txt java:back'
                    }
         }
