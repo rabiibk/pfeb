@@ -132,22 +132,22 @@ pipeline {
 
     }
 
-   // post {
-        //   always {
+    post {
+           always {
 
 
-          //         emailext (
-           //            subject: "Pipeline de l'Application SpringBoot est terminé avec succés, Succès Jenkins Build ",
-           //            body: "La construction Jenkins a réussi. Pipeline OK avec succés",
-           //            to: "rabiica30@gmail.com",
-           //            from: "jenkins@example.com",
-           //            replyTo: "jenkins@example.com",
-           //            mimeType: "text/html"
-           //        )
+                  emailext (
+                       subject: "Pipeline de l'Application SpringBoot est terminé avec succés, Succès Jenkins Build ",
+                       body: "La construction Jenkins a réussi. Pipeline OK avec succés",
+                       to: "rabiica30@gmail.com",
+                       from: "jenkins@example.com",
+                       replyTo: "jenkins@example.com",
+                       mimeType: "text/html"
+                   )
 
 
-          //     }
-    // }
+               }
+     }
 
 
 
