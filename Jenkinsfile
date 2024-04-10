@@ -90,6 +90,10 @@ pipeline {
 
 
         stage('Send Trivy Report by Email') {
+            when {
+                // Déclencher le stage uniquement en cas de succès de la construction
+                success()
+            }
                    steps {
                        emailext subject: 'Trivy Security Scan Report',
                            body: 'Please find attached the Trivy security scan report.',
