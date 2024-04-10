@@ -89,6 +89,7 @@ pipeline {
        stage('Send Trivy Report by Email') {
            steps {
                script {
+                always {
                    emailext (
                        subject: 'Trivy Security Scan Report',
                        body: 'Please find attached the Trivy security scan report.',
@@ -98,7 +99,8 @@ pipeline {
                        replyTo: "jenkins@example.com"
                    )
                }
-           }
+            }
+          }
        }
 
 
