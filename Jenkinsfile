@@ -89,7 +89,7 @@ pipeline {
         stage('Send Trivy Report by Email') {
             when {
                 // Déclencher le stage uniquement en cas de succès de la construction
-                expression { currentBuild.result == 'SUCCESS' }
+               expression { currentBuild.result != null }
             }
             steps {
                 emailext subject: 'Trivy Security Scan Report',
