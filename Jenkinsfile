@@ -18,14 +18,14 @@ pipeline {
     }
 
     stages {
-           stage('Git') {
+        stage('Git') {
                steps {
                    echo 'My first job pipeline angular'
                    checkout([$class: 'GitSCM', branches: [[name: '*/master']],
                     doGenerateSubmoduleConfigurations: false, extensions: [],
                      submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rabiibk/pfeb.git']]])
                }
-           }
+        }
 
         stage('Compiling') {
             steps {
@@ -70,7 +70,7 @@ pipeline {
             }
         }
 
-        stage('Pull JAR & Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
 
                 sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
@@ -80,13 +80,12 @@ pipeline {
             }
         }
 
-        stage {
-               stage('Scanner avec TRIVY') {
+        stage('Scanner avec TRIVY') {
                    steps {
                        sh 'trivy image --timeout 60m --output /home/trivy-report.txt java:back'
                    }
-               }
-             }
+        }
+
 
         stage('Send Trivy Report by Email') {
                    steps {
@@ -105,30 +104,6 @@ pipeline {
                 sh "docker push ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
             }
         }
-
-        stage('Push de l\'image Docker vers Nexus') {
-            steps {
-                // Récupération sécurisée des identifiants avec le plugin UsernamePassword
-                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-
-                    // Connexion à Nexus avec --password-stdin
-                    sh '''
-                        docker login -u '${NEXUS_USERNAME}' --password-stdin <<< '${NEXUS_PASSWORD}' 192.168.164.129:8083
-                    '''
-
-                    // Étiquetage et push de l'image
-                    script {
-                        def image = "${env.DOCKER_IMAGE_NAME2}:${env.DOCKER_IMAGE_TAG2}"
-                        docker.withRegistry('https://192.168.164.129:8083', 'nexus') {
-                            docker.buildAndPush(image)
-                        }
-                    }
-                }
-            }
-        }
-
-
-
 
 
 
