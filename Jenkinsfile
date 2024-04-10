@@ -86,18 +86,22 @@ pipeline {
             }
         }
 
-        stage('Send Trivy Report by Email') {
-            when {
-                // Déclencher le stage uniquement en cas de succès de la construction
-               expression { currentBuild.result != null }
-            }
-            steps {
-                emailext subject: 'Trivy Security Scan Report',
-                    body: 'Please find attached the Trivy security scan report.',
-                    attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
-                    to: 'rabiica30@gmail.com'
-            }
-        }
+       stage('Send Trivy Report by Email') {
+           steps {
+               script {
+                   emailext (
+                       subject: 'Trivy Security Scan Report',
+                       body: 'Please find attached the Trivy security scan report.',
+                       attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
+                       to: "rabiica30@gmail.com",
+                       from: "jenkins@example.com",
+                       replyTo: "jenkins@example.com"
+                   )
+               }
+           }
+       }
+
+
 
 
         stage('Push Docker Image to Docker Hub') {
