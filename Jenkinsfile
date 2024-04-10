@@ -93,7 +93,7 @@ pipeline {
                    emailext (
                        subject: 'Trivy Security Scan Report',
                        body: 'Please find attached the Trivy security scan report.',
-                     //  attachmentsPattern: '**/trivy-report.txt',
+                       attachmentsPattern: '**/trivy-report.txt',
                        to: "rabiica30@gmail.com",
                        from: "jenkins@example.com",
                        replyTo: "jenkins@example.com"
