@@ -88,25 +88,38 @@ pipeline {
 
        stage('Send Trivy Report by Email') {
            steps {
-               script {
+
                 always {
                    emailext (
                        subject: 'Trivy Security Scan Report',
                        body: 'Please find attached the Trivy security scan report.',
-                       attachmentsPattern: '**/trivy-report.txt',
+                       attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
                        to: "rabiica30@gmail.com",
                        from: "jenkins@example.com",
                        replyTo: "jenkins@example.com"
                    )
                }
-            }
+
           }
        }
 
+        stage('Push Docker Image to Nexus') {
+                   steps {
+                       withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
 
+                            //sh "echo \$NEXUS_PASSWORD | docker login -u admin --password-stdin http://192.168.164.129:8083"
+                            //sh "docker login -u admin -p nexus http://192.168.164.129:8083"
+                           sh 'echo "nexus" | docker login -u admin --password-stdin http://192.168.164.129:8083'
 
+                       }
 
+                      script {
+                          sh "docker tag java:back 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                          sh "docker push 192.168.164.129:8083/${DOCKER_IMAGE_NAME2}:${DOCKER_IMAGE_TAG2}"
+                      }
 
+                   }
+               }
 
         stage('Push Docker Image to Docker Hub') {
             steps {
