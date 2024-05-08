@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
 
-
+    boolean existsByName(String name);
     Employee findByNameAndMatricule(String name, int matricule);
 }
