@@ -2,8 +2,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import com.votrepackage.Employee;
-import com.votrepackage.EmployeeRepository;
+import com.example.angular.springbootcrudapi.repository.model.Employee;
+import com.example.angular.springbootcrudapi.repository.EmployeeRepository;
 
 @Component
 public class DataInitializer implements ApplicationRunner {
