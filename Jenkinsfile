@@ -122,26 +122,34 @@ pipeline {
                }
 
         stage('Push Docker Image to Docker Hub') {
-            steps {
-                sh "docker tag java:back ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
-                sh "docker login -u rabii1990 -p rabiiradar2012"
-                sh "docker push ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
-            }
-        }
+                   steps {
+                          sh "docker tag java:back ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
+                          sh "docker login -u rabii1990 -p rabiiradar2012"
+                          sh "docker push ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}"
+                       }
+                   }
 
 
 
-       // stage('Docker-compose') {
-       //             steps {
-       //                 script {
-       //                     dir(DOCKER_COMPOSE_HOME) {
-       //                         sh 'docker-compose up -d'
-       //             }
-       //         }
-       //      }
-       // }
+        stage('Docker-compose') {
+                  steps {
+                    script {
+                      dir(DOCKER_COMPOSE_HOME) {
+                      sh 'docker-compose up -d'
+                          }
+                        sleep 15
+                      }
+                   }
+              }
 
-
+        stage('Execute SQL Script') {
+                  steps {
+                     script {
+                      sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/init.sql'
+                      sh "docker exec -i mysql mysql -u devops -pdevops devops < /var/lib/jenkins/workspace/pfeb/init.sql"
+                      }
+                  }
+              }
 
     }
 
