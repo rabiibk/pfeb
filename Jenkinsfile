@@ -156,7 +156,7 @@ pipeline {
                 steps {
                  script {
 
-                     sh 'sudo ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
+                     sh 'sudo -S 123456 ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
 
 
                   }
