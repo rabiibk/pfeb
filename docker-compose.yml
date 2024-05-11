@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   # Service MySQL
   mysql:
@@ -18,21 +19,19 @@ services:
   java:
     image: java:back
     container_name: java
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8090:8090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?allowPublicKeyRetrieval=true&useSSL=false
       MYSQL_HOST: mysql
       MYSQL_USER: devops
       MYSQL_PASSWORD: devops
       MYSQL_PORT: 3306
+    ports:
+      - "8090:8090"
     depends_on:
       - mysql
     networks:
       - my-network
+
   # Angular App
   angular:
     image: angular:angular
