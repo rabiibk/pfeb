@@ -135,7 +135,7 @@ pipeline {
                   steps {
                     script {
                       dir(DOCKER_COMPOSE_HOME) {
-                      sh 'systemctl stop nginx'
+                      sh 'sudo systemctl stop nginx'
                       sh 'docker-compose up -d'
                           }
                         sleep 15
