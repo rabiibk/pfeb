@@ -10,7 +10,6 @@ public class DataInitializer implements ApplicationRunner {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // Vérifiez si l'employé par défaut n'existe pas déjà

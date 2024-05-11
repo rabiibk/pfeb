@@ -151,6 +151,17 @@ pipeline {
                   }
               }
 
+         stage('ansible') {
+                steps {
+                 script {
+
+                     sh 'sudo ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
+
+
+                  }
+                }
+              }
+
     }
 
     post {

@@ -1,0 +1,43 @@
+---
+- name: Clone GitHub repository
+  hosts: targets
+  gather_facts: no
+  tasks:
+    - name: Install Git (if not already installed)
+      become: yes
+      package:
+        name: git
+        state: present
+
+    - name: Clone GitHub repository
+      git:
+        repo: "https://github.com/rabiibk/K8S.git"
+        dest: "/home/rabii/"
+
+- name: Apply Kubernetes manifests from /home/rabii/K8S (Spring)
+  hosts: targets
+  become: true
+  tasks:
+    - name: Run kubectl apply -f from /home/rabii/K8S/spring-k8s
+      command: kubectl apply -f /home/rabii/K8S/spring-k8s
+      register: kubectl_apply_result_spring
+
+    - name: Fail if kubectl apply failed for Spring
+      fail:
+        msg: "Failed to apply Spring Kubernetes manifests. See kubectl_apply_result_spring for details."
+      when: kubectl_apply_result_spring.rc != 0
+
+- name: Apply Kubernetes manifests from /home/rabii/K8S (Angular)
+  hosts: targets
+  become: true
+  tasks:
+    - name: Run kubectl apply -f from /home/rabii/K8S/angular-k8s
+      command: kubectl apply -f /home/rabii/K8S/angular-k8s
+      register: kubectl_apply_result_angular
+
+    - name: Fail if kubectl apply failed for Angular
+      fail:
+        msg: "Failed to apply Angular Kubernetes manifests. See kubectl_apply_result_angular for details."
+      when: kubectl_apply_result_angular.rc != 0
+
+
