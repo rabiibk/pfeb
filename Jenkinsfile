@@ -14,6 +14,8 @@ pipeline {
         DOCKER_IMAGE_TAG2 = 'spring2'
         passwordFile = 'password.txt'
 
+        PASSWORD_FILE = "/var/lib/jenkins/workspace/password.txt"
+
         DOCKER_COMPOSE_HOME = '/var/lib/jenkins/workspace/pfeb'
     }
 
@@ -156,20 +158,18 @@ pipeline {
         stage('Scan playbook') {
                    steps {
                     // Étape pour scanner le playbook avec Checkov et enregistrer le rapport dans un fichier
-                        sh 'checkov -f  /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml >  /var/lib/jenkins/workspace/pfeb/checkov_report.txt'
+                        sh 'checkov -f  /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml >  /var/lib/jenkins/workspace/pfeb/checkov-report.txt'
                     }
                   }
 
-         stage('ansible') {
-                steps {
-                 script {
-
-                     sh 'sudo  ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
-
-
-                  }
-                }
-              }
+          stage('ansible') {
+                     steps {
+                         script {
+                             def password = readFile(PASSWORD_FILE).trim()
+                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml"
+                         }
+                     }
+                 }
 
 
     }
