@@ -76,6 +76,7 @@ pipeline {
                 sh 'chmod 750 /var/lib/jenkins/workspace/pfeb/target/springboot-crud-api-0.1.jar'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/Dockerfile'
                 sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/trivy-report.txt'
+                sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/checkov-report.txt'
                 sh "docker build -t java:back /var/lib/jenkins/workspace/pfeb "
             }
         }
@@ -152,16 +153,24 @@ pipeline {
                   }
               }
 
+        stage('Scan playbook') {
+                   steps {
+                    // Étape pour scanner le playbook avec Checkov et enregistrer le rapport dans un fichier
+                        sh 'checkov -f  /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml >  /var/lib/jenkins/workspace/pfeb/checkov_report.txt'
+                    }
+                  }
+
          stage('ansible') {
                 steps {
                  script {
 
-                     sh 'sudo -S 123456 ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
+                     sh 'sudo  ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml'
 
 
                   }
                 }
               }
+
 
     }
 
