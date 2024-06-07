@@ -131,14 +131,14 @@ pipeline {
                    }
               }
 
-        stage('Execute SQL Script') {
-                  steps {
-                     script {
-                      sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/init.sql'
-                      sh "docker exec -i mysql mysql -u devops -pdevops devops < /var/lib/jenkins/workspace/pfeb/init.sql"
-                      }
-                  }
-              }
+      //  stage('Execute SQL Script') {
+      //            steps {
+      //               script {
+      //                sh 'chmod 777 /var/lib/jenkins/workspace/pfeb/init.sql'
+      //                sh "docker exec -i mysql mysql -u devops -pdevops devops < /var/lib/jenkins/workspace/pfeb/init.sql"
+      //                }
+       //           }
+       //       }
 
         stage('Scan playbook') {
                    steps {
