@@ -19,7 +19,7 @@
   become: true
   tasks:
     - name: Run kubectl apply -f from /home/rabii/K8S/spring-k8s
-      command: kubectl apply -f /home/rabii/K8S/spring-k8s
+      command: kubectl apply -f /home/rabii/K8S/spring-k8s --namespace efk-monitoring
       register: kubectl_apply_result_spring
 
     - name: Fail if kubectl apply failed for Spring
@@ -32,7 +32,7 @@
   become: true
   tasks:
     - name: Run kubectl apply -f from /home/rabii/K8S/angular-k8s
-      command: kubectl apply -f /home/rabii/K8S/angular-k8s
+      command: kubectl apply -f /home/rabii/K8S/angular-k8s --namespace efk-monitoring
       register: kubectl_apply_result_angular
 
     - name: Fail if kubectl apply failed for Angular
