@@ -1,0 +1,16 @@
+---
+- name: Exécuter kube-hunter sur les nœuds maîtres
+  hosts: targets
+  become: yes
+  tasks:
+    - name: Installer kube-hunter
+      apt:
+        name: kube-hunter
+        state: latest
+
+    - name: Exécuter kube-hunter et enregistrer le rapport
+      shell: |
+        kube-hunter --remote {{ ansible_host }} --statistics > /home/rabii/rapport_kube_hunter_{{ inventory_hostname }}.txt
+      args:
+        chdir: /tmp
+      become: yes

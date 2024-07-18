@@ -166,7 +166,9 @@ pipeline {
                      steps {
                          script {
                              def password = readFile(PASSWORD_FILE).trim()
+                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook3.yml"
                              sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml"
+                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook2.yml"
                          }
                      }
                  }

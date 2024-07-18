@@ -1,0 +1,16 @@
+---
+- name: Exécuter Lynis sur les nœuds maîtres
+  hosts: targets
+  become: yes
+  tasks:
+    - name: Installer Lynis (si nécessaire)
+      apt:
+        name: lynis
+        state: latest
+
+    - name: Exécuter Lynis et enregistrer le rapport
+      shell: |
+        lynis audit system > /home/rabii/rapport_lynis_{{ inventory_hostname }}.txt
+      args:
+        chdir: /tmp
+      become: yes
