@@ -89,22 +89,7 @@ pipeline {
             }
         }
 
-       stage('Send Trivy Report by Email') {
-           steps {
 
-                always {
-                   emailext (
-                       subject: 'Trivy Security Scan Report',
-                       body: 'Please find attached the Trivy security scan report.',
-                       attachmentsPattern: '/var/lib/jenkins/workspace/pfeb/trivy-report.txt',
-                       to: "rabiica30@gmail.com",
-                       from: "jenkins@example.com",
-                       replyTo: "jenkins@example.com"
-                   )
-               }
-
-          }
-       }
 
         stage('Push Docker Image to Nexus') {
                    steps {
@@ -162,16 +147,33 @@ pipeline {
                     }
                   }
 
-          stage('ansible') {
+          stage('ansible: playbook Lynis') {
                      steps {
                          script {
                              def password = readFile(PASSWORD_FILE).trim()
-                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook3.yml"
-                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook1.yml"
-                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook2.yml"
+                             sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook-lynis.yml"
+
                          }
                      }
                  }
+          stage('ansible: playbook K8S') {
+                               steps {
+                                   script {
+                                       def password = readFile(PASSWORD_FILE).trim()
+                                       sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook-k8s.yml"
+
+                                   }
+                               }
+                           }
+          stage('ansible: playbook kube-hunter') {
+                               steps {
+                                   script {
+                                       def password = readFile(PASSWORD_FILE).trim()
+                                       sh "echo '${password}' | sudo -S ansible-playbook -i /var/lib/jenkins/workspace/pfeb/ansible/inventory.ini /var/lib/jenkins/workspace/pfeb/ansible/playbook-kube-hunter.yml"
+
+                                   }
+                               }
+                           }
 
 
     }
