@@ -3,10 +3,16 @@
   hosts: targets
   become: yes
   tasks:
-    - name: Installer kube-hunter
+    - name: Assurer que pip est installé
       apt:
+        name: python3-pip
+        state: latest
+
+    - name: Installer kube-hunter via pip
+      pip:
         name: kube-hunter
         state: latest
+        executable: pip3
 
     - name: Exécuter kube-hunter et enregistrer le rapport
       shell: |
